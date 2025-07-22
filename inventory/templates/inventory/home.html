@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>PharmaStock Home</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        .hero-section {
+            background: linear-gradient(90deg, #1976d2 60%, #43a047 100%);
+            color: #fff;
+            padding: 64px 0 56px 0;
+            text-align: center;
+            border-radius: 0 0 32px 32px;
+            box-shadow: 0 4px 24px rgba(25,118,210,0.10);
+        }
+        .hero-title {
+            font-size: 2.7rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(25,118,210,0.10);
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 36px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+        .cta-btn {
+            background: #fff;
+            color: #1976d2;
+            border: none;
+            border-radius: 5px;
+            padding: 16px 44px;
+            font-size: 1.18rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .cta-btn:hover {
+            background: #1976d2;
+            color: #fff;
+            box-shadow: 0 4px 16px #1976d2;
+        }
+        @media (max-width: 700px) {
+            .hero-title { font-size: 2rem; }
+            .hero-section { padding: 36px 0 28px 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-title">💊 Welcome to PharmaStock – Your Smart Pharmacy Inventory Partner</div>
+        <div class="hero-subtitle">
+            Track stock levels, monitor expiries, and manage your inventory with ease.
+        </div>
+            {% if user.is_authenticated %}
+                <button class="cta-btn" onclick="document.getElementById('products') && document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                    View Products
+                </button>
+            {% else %}
+                <a href="{% url 'login' %}" class="cta-btn" style="display:inline-block; text-decoration:none;">
+                    View Products
+                </a>
+            {% endif %}
+        </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

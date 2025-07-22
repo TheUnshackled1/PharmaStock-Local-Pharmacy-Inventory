@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div style="max-width: 350px; margin: 60px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08); padding: 32px;">
+        <h1 class="main-title" style="font-size: 2rem; margin-bottom: 24px;">PharmaStock Login</h1>
+        {% if message %}
+            <div style="color: #f44336; margin-bottom: 16px; text-align:center;">{{ message }}</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required autofocus>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit" class="nav-btn" style="width:100%; margin-top: 18px;">Login</button>
+        </form>
+    </div>
+</body>
+</html>

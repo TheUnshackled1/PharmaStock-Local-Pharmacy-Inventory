@@ -109,6 +109,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Manila'
 USE_TZ = True
 
+LOGIN_URL = 'login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

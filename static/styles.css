@@ -1,4 +1,4 @@
- body {
+body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #f4f6fa;
             margin: 0;
@@ -148,3 +148,149 @@ form a.nav-btn {
 }
 
 
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 32px;
+}
+.product-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+    padding: 24px 32px;
+    width: 240px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.product-card:hover {
+    box-shadow: 0 4px 16px #1976d2;
+    transform: scale(1.03);
+}
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+    min-width: 300px;
+}
+.modal-btns {
+    margin-top: 24px;
+}
+
+      /* Hero Section */
+.hero-section {
+    background: linear-gradient(90deg, #1976d2 60%, #43a047 100%);
+    color: #fff;
+    padding: 56px 0 40px 0;
+    text-align: center;
+    border-radius: 0 0 32px 32px;
+    box-shadow: 0 4px 24px rgba(25,118,210,0.10);
+}
+.hero-title {
+    font-size: 2.7rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 32px;
+    font-weight: 400;
+}
+.cta-btn {
+    background: #fff;
+    color: #1976d2;
+    border: none;
+    border-radius: 5px;
+    padding: 14px 38px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.cta-btn:hover {
+    background: #1976d2;
+    color: #fff;
+    box-shadow: 0 4px 16px #1976d2;
+}
+.product-section {
+    margin: 48px auto 0 auto;
+    max-width: 1100px;
+    padding: 0 16px;
+}
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    margin-top: 32px;
+}
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(25,118,210,0.08);
+    padding: 28px 32px;
+    width: 260px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1.5px solid #e3eafc;
+}
+.product-card:hover {
+    box-shadow: 0 6px 24px #1976d2;
+    transform: scale(1.04);
+    border-color: #1976d2;
+}
+.product-card h2 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+.modal-bg {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+    min-width: 300px;
+    box-shadow: 0 2px 16px rgba(25,118,210,0.15);
+}
+.modal-btns {
+    margin-top: 24px;
+}
+@media (max-width: 700px) {
+    .product-grid { flex-direction: column; gap: 18px; }
+    .product-card { width: 95%; }
+    .hero-title { font-size: 2rem; }
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border-radius: 5px;
+    border: 1px solid #b0bec5;
+    font-size: 1rem;
+}

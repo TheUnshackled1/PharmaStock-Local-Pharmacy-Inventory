@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Shop Products</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">Shop Products</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th>Expiry</th>
+            <th>Action</th>
+        </tr>
+        {% for product in products %}
+        <tr style="background-color: #e8f5e9;">
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.expiry_date }}</td>
+            <td>
+                {% if product.quantity > 0 %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                    {% endif %}
+                {% else %}
+                    <span style="color: #f44336; font-weight: bold;">Out of Stock</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -2,10 +2,18 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.product_list, name='product_list'),
+    path('', views.home, name='home'),  # Home page for customers
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+
+    # Admin-only product management
+    path('admin/products/', views.product_list, name='product_list'),
     path('expired/', views.expired_products, name='expired_products'),
     path('expiring-soon/', views.expiring_soon_products, name='expiring_soon'),
     path('add/', views.product_create, name='product_add'),
     path('edit/<int:pk>/', views.product_update, name='product_edit'),
     path('delete/<int:pk>/', views.product_delete, name='product_delete'),
+
+    # Customer shop (optional, can be removed if home.html is the shop)
+    path('shop/', views.customer_product_list, name='customer_product_list'),
 ]
