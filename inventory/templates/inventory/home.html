@@ -55,15 +55,26 @@
         <div class="hero-subtitle">
             Track stock levels, monitor expiries, and manage your inventory with ease.
         </div>
+
             {% if user.is_authenticated %}
-                <button class="cta-btn" onclick="document.getElementById('products') && document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
-                    View Products
-                </button>
+                {% if user.is_staff %}
+                    <!-- Redirect admins to admin product list -->
+                    <a href="{% url 'product_list' %}" class="cta-btn" style="display:inline-block; text-decoration:none;">
+                        View Products
+                    </a>
+                {% else %}
+                    <!-- Redirect normal users to customer product list -->
+                    <a href="{% url 'customer_product_list' %}" class="cta-btn" style="display:inline-block; text-decoration:none;">
+                        View Products
+                    </a>
+                {% endif %}
             {% else %}
+                <!-- Not logged in: go to login page -->
                 <a href="{% url 'login' %}" class="cta-btn" style="display:inline-block; text-decoration:none;">
                     View Products
-                </a>
-            {% endif %}
+        </a>
+    {% endif %}
+
         </div>
 
     <script src="{% static 'script.js' %}"></script>

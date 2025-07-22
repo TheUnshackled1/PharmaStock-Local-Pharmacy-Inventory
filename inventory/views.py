@@ -3,6 +3,8 @@ from .models import Product
 from datetime import timedelta
 from django.utils import timezone
 
+from django.contrib.auth.models import User
+
 
 from .forms import ProductForm
 from django.contrib.auth import authenticate, login, logout
@@ -24,10 +26,28 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('product_list')
+            return redirect('customer_product_list')
         else:
             message = 'Invalid username or password.'
     return render(request, 'inventory/login.html', {'message': message})
+
+def signup_view(request):
+    message = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            message = "Passwords do not match."
+        elif User.objects.filter(username=username).exists():
+            message = "Username already taken."
+        else:
+            user = User.objects.create_user(username=username, password=password1)
+            login(request, user)
+            return redirect('customer_product_list')
+
+    return render(request, 'inventory/signup.html', {'message': message})
 
 
 def logout_view(request):

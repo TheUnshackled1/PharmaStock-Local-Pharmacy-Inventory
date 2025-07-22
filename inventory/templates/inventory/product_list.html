@@ -18,8 +18,12 @@
         </div>
 
         <div style="text-align:center; margin-bottom: 16px;">
-            <a href="{% url 'product_add' %}" class="nav-btn">Add Product</a>
+                <a href="{% url 'product_add' %}" class="nav-btn" style="margin-right: 8px;">Add Product</a>
+                <a href="/admin/" class="nav-btn" style="background-color: #1976d2; color: white; margin-right: 8px;">Admin Panel</a>
+                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; color: white;">Logout</a>
         </div>
+
+        
     <table border="1">
 
          <tr>
