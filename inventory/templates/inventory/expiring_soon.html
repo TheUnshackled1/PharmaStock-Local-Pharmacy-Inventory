@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Expiring Soon</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <h1 class="main-title">Expiring Soon</h1>
+    <div class="nav-links">
+        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
+        <span class="divider">|</span>
+        <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
+    </div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th>Expiry</th>
+            <th>Days Left</th>
+        </tr>
+        {% for product in products %}
+        <tr style="background-color: #ff8;">
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.expiry_date }}</td>
+            <td>{{ product.days_until_expiry }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

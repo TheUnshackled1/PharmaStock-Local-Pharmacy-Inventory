@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>StockTime</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <h1 class="main-title">PharmaStock | Local Pharmacy Inventory</h1>
+
+            
+        <div class="nav-links">
+            <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
+            <span class="divider">|</span>
+            <a href="{% url 'expiring_soon' %}" class="nav-btn expiring">Expiring Soon</a>
+        </div>
+
+        <div style="text-align:center; margin-bottom: 16px;">
+            <a href="{% url 'product_add' %}" class="nav-btn">Add Product</a>
+        </div>
+    <table border="1">
+
+         <tr>
+            <th>Name</th><th>Category</th><th>Qty</th><th>Expiry</th><th>Status</th><th>Actions</th>
+        </tr>
+        {% for product in products %}
+        <tr style="background-color: {% if product.is_expired %}#f88{% elif product.days_until_expiry <= 7 %}#ff8{% else %}#8f8{% endif %}">
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.expiry_date }}</td>
+            <td>
+                {% if product.expiry_date >= today %}
+                    <span style="color: #43a047; font-weight: bold;">Available</span>
+                {% else %}
+                    <span style="color: #f44336; font-weight: bold;">Expired</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
+                <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        <script>
+        // Highlight row on hover
+        document.querySelectorAll('table tr').forEach(function(row, idx) {
+            if(idx === 0) return; // skip header
+            row.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 2px 8px #1976d2';
+                this.style.transform = 'scale(1.01)';
+            });
+            row.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '';
+                this.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
