@@ -5,27 +5,33 @@
     <title>PharmaStock Home</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
-        .hero-section {
-            background: linear-gradient(90deg, #1976d2 60%, #43a047 100%);
-            color: #fff;
-            padding: 64px 0 56px 0;
-            text-align: center;
-            border-radius: 0 0 32px 32px;
-            box-shadow: 0 4px 24px rgba(25,118,210,0.10);
-        }
-        .hero-title {
-            font-size: 2.7rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 8px rgba(25,118,210,0.10);
-        }
-        .hero-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 36px;
-            font-weight: 400;
-            opacity: 0.95;
-        }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("{% static 'images/pharmacy.jpg' %}");
+    background-size: cover;             
+    background-repeat: no-repeat;
+    background-position: center center;  
+    background-attachment: fixed;
+    image-rendering: auto;               
+}
+
+/* Overlay using pseudo-element */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35); /* Adjust the 0.35 for more/less darkness */
+    z-index: -1; /* Places it behind your content */
+}
+
         .cta-btn {
             background: #fff;
             color: #1976d2;
@@ -43,10 +49,20 @@
             color: #fff;
             box-shadow: 0 4px 16px #1976d2;
         }
-        @media (max-width: 700px) {
-            .hero-title { font-size: 2rem; }
-            .hero-section { padding: 36px 0 28px 0; }
-        }
+ .hero-section {
+    background: transparent; /* Ensures no background color */
+    padding: 56px 0 40px 0;
+    text-align: center;
+}
+.hero-title {
+    font-size: 2.5rem;
+    padding: 20px;
+    font-weight: bold;
+}
+.hero-subtitle {
+    font-size: 1.3rem;
+    padding-bottom: 20px;
+}
     </style>
 </head>
 <body>
@@ -78,5 +94,50 @@
         </div>
 
     <script src="{% static 'script.js' %}"></script>
+ <script>
+function adjustHeroLayout() {
+    const heroSection = document.querySelector('.hero-section');
+    const heroTitle = document.querySelector('.hero-title');
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    const ctaButtons = document.querySelectorAll('.cta-btn');
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 576) {
+        heroSection.style.padding = '40px 10px';
+        heroTitle.style.fontSize = '1.6rem';
+        heroSubtitle.style.fontSize = '1rem';
+        heroTitle.style.padding = '10px';
+
+        ctaButtons.forEach(btn => {
+            btn.style.padding = '12px 24px';
+            btn.style.fontSize = '1rem';
+        });
+    } else if (screenWidth < 768) {
+        heroSection.style.padding = '48px 20px';
+        heroTitle.style.fontSize = '2rem';
+        heroSubtitle.style.fontSize = '1.15rem';
+        heroTitle.style.padding = '16px';
+
+        ctaButtons.forEach(btn => {
+            btn.style.padding = '14px 36px';
+            btn.style.fontSize = '1.05rem';
+        });
+    } else {
+        heroSection.style.padding = '56px 0 40px 0';
+        heroTitle.style.fontSize = '2.5rem';
+        heroSubtitle.style.fontSize = '1.3rem';
+        heroTitle.style.padding = '20px';
+
+        ctaButtons.forEach(btn => {
+            btn.style.padding = '16px 44px';
+            btn.style.fontSize = '1.18rem';
+        });
+    }
+}
+
+// Run on load and resize
+window.addEventListener('load', adjustHeroLayout);
+window.addEventListener('resize', adjustHeroLayout);
+</script>
 </body>
 </html>

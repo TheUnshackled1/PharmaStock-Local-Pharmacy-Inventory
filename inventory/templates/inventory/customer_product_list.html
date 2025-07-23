@@ -6,34 +6,80 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <h1 class="main-title">Shop Products</h1>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Qty</th>
-            <th>Expiry</th>
-            <th>Action</th>
-        </tr>
-        {% for product in products %}
-        <tr style="background-color: #e8f5e9;">
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.expiry_date }}</td>
-            <td>
-                {% if product.quantity > 0 %}
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+        <h1 class="main-title">Shop Products</h1>
+
+        {% if user.is_authenticated %}
+            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
+                Welcome, <strong>{{ user.username|capfirst }}</strong>!
+            </p>
+        {% endif %}
+        
+
+     <table border="1">
+        <thead>
+            <div>
+             {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <tr>
+                            <th colspan="5" style="text-align: right; padding: 10px; background-color: transparent;">
+                                <a href="{% url 'logout' %}" style="background-color: #424242; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin-right: 8px;">
+                                    Logout
+                                </a>
+                                <a href="{% url 'product_list' %}" style="background-color: #1976d2; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin-right: 8px;">
+                                    Dashboard
+                                </a>
+                                <a href="/admin/" style="background-color: #455a64; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+                                    Admin Panel
+                                </a>
+                            </th>
+                        </tr>
                     {% else %}
-                        <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                        <tr>
+                            <th colspan="5" style="text-align: right; padding: 10px; background-color: transparent;">
+                                <a href="{% url 'logout' %}" style="background-color: #424242; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+                                    Logout
+                                </a>
+                            </th>
+                        </tr>
                     {% endif %}
-                {% else %}
-                    <span style="color: #f44336; font-weight: bold;">Out of Stock</span>
                 {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
+            </div>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Qty</th>
+                <th>Expiry</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for product in products %}
+    <tr style="background-color: {% if product.expiry_date < today %}#ffebee{% else %}#e8f5e9{% endif %};">
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>
+            {{ product.expiry_date }}
+            {% if product.expiry_date < today %}
+                <span style="color: red; font-weight: bold;">(Expired)</span>
+            {% else %}
+                <span style="color: green; font-weight: bold;">(OK)</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if product.quantity > 0 %}
+                {% if user.is_authenticated %}
+                    <a href="{% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                {% else %}
+                    <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                {% endif %}
+            {% else %}
+                <span style="color: #f44336; font-weight: bold;">Out of Stock</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
     </table>
 </body>
 </html>

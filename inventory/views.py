@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
+from datetime import date
 
 from .forms import ProductForm
 from django.contrib.auth import authenticate, login, logout
@@ -52,7 +53,7 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 def admin_required(view_func):
@@ -113,8 +114,12 @@ def expiring_soon_products(request):
 
 @login_required
 def customer_product_list(request):
-    products = Product.objects.filter(expiry_date__gte=timezone.now().date())
-    return render(request, 'inventory/customer_product_list.html', {'products': products})
+    products = Product.objects.all()  # or filter as you prefer
+    today = date.today()
+    return render(request, 'inventory/customer_product_list.html', {
+        'products': products,
+        'today': today
+    })
 
 
 
