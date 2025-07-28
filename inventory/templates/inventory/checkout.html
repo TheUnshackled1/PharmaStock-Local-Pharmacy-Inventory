@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">Checkout</h1>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="checkout-container">
+        <h2>Order Summary</h2>
+        <p><strong>Product:</strong> {{ product.name }}</p>
+        <p><strong>Quantity:</strong> {{ quantity }}</p>
+        <p><strong>Price per item:</strong> ${{ product.price|floatformat:2 }}</p>
+        <p><strong>Total Cost:</strong> ${{ total_cost|floatformat:2 }}</p>
+
+        <form method="post" class="payment-form">
+            {% csrf_token %}
+            <label for="payment_amount">Payment Amount:</label>
+            <input type="number" id="payment_amount" name="payment_amount" step="0.01" min="{{ total_cost|floatformat:2 }}" required>
+            <button type="submit" class="nav-btn">Pay</button>
+        </form>
+
+        {% if change is not None %}
+            <p class="change-display"><strong>Change:</strong> ${{ change|floatformat:2 }}</p>
+        {% endif %}
+
+        <p><a href="{% url 'customer_product_list' %}" class="nav-btn" style="background-color: #6c757d;">Back to Shop</a></p>
+    </div>
+</body>
+</html>

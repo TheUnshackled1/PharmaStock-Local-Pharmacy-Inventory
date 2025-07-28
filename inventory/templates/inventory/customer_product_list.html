@@ -15,6 +15,14 @@
         {% endif %}
         
 
+     {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
      <table border="1">
         <thead>
             <div>
@@ -22,13 +30,13 @@
                     {% if user.is_staff %}
                         <tr>
                             <th colspan="5" style="text-align: right; padding: 10px; background-color: transparent;">
-                                <a href="{% url 'logout' %}" style="background-color: #424242; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin-right: 8px;">
+                                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; margin-right: 8px;">
                                     Logout
                                 </a>
-                                <a href="{% url 'product_list' %}" style="background-color: #1976d2; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin-right: 8px;">
+                                <a href="{% url 'product_list' %}" class="nav-btn" style="background-color: #1976d2; margin-right: 8px;">
                                     Dashboard
                                 </a>
-                                <a href="/admin/" style="background-color: #455a64; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+                                <a href="/admin/" class="nav-btn" style="background-color: #455a64;">
                                     Admin Panel
                                 </a>
                             </th>
@@ -36,7 +44,7 @@
                     {% else %}
                         <tr>
                             <th colspan="5" style="text-align: right; padding: 10px; background-color: transparent;">
-                                <a href="{% url 'logout' %}" style="background-color: #424242; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px;">
+                                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242;">
                                     Logout
                                 </a>
                             </th>
@@ -48,6 +56,7 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Qty</th>
+                <th>Price</th>
                 <th>Expiry</th>
                 <th>Action</th>
             </tr>
@@ -58,6 +67,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
         <td>{{ product.quantity }}</td>
+        <td>${{ product.price|floatformat:2 }}</td>
         <td>
             {{ product.expiry_date }}
             {% if product.expiry_date < today %}
@@ -69,7 +79,11 @@
         <td>
             {% if product.quantity > 0 %}
                 {% if user.is_authenticated %}
-                    <a href="{% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                    <form action="{% url 'purchase_product' product.pk %}" method="post" class="buy-form">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input">
+                        <button type="submit" class="nav-btn">Buy</button>
+                    </form>
                 {% else %}
                     <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
                 {% endif %}

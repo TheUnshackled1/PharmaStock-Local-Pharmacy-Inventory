@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Low Stock Products</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <h1 class="main-title">Low Stock Products</h1>
+    <div class="nav-links">
+        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
+        <span class="divider">|</span>
+        <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
+        <span class="divider">|</span>
+        <a href="{% url 'expiring_soon' %}" class="nav-btn expiring">Expiring Soon</a>
+    </div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Qty</th>
+            <th>Threshold</th>
+        </tr>
+        {% for product in products %}
+        <tr style="background-color: #ffcc80;">
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.low_stock_threshold }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

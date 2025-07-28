@@ -10,17 +10,26 @@
 <body>
     <h1 class="main-title">PharmaStock | Local Pharmacy Inventory</h1>
 
+    {% if low_stock_count > 0 %}
+        <div class="low-stock-alert">
+            <p>You have {{ low_stock_count }} product(s) running low on stock. <a href="{% url 'low_stock' %}">View them here</a>.</p>
+        </div>
+    {% endif %}
+
             
         <div class="nav-links">
             <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
             <span class="divider">|</span>
             <a href="{% url 'expiring_soon' %}" class="nav-btn expiring">Expiring Soon</a>
+            <span class="divider">|</span>
+            <a href="{% url 'low_stock' %}" class="nav-btn low-stock">Low Stock</a>
         </div>
 
         <div style="text-align:center; margin-bottom: 16px;">
                 <a href="{% url 'product_add' %}" class="nav-btn" style="margin-right: 8px;">Add Product</a>
                 <a href="/admin/" class="nav-btn" style="background-color: #1976d2; color: white; margin-right: 8px;">Admin Panel</a>
                 <a href="{% url 'customer_product_list' %}" class="nav-btn" style="background-color: #838080ff; color: white;">Check Shop</a>
+                <a href="{% url 'income_report' %}" class="nav-btn" style="background-color: #4CAF50; color: white;">Income Report</a>
                 <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; color: white;">Logout</a>
         </div>
 
@@ -31,18 +40,12 @@
             <th>Name</th><th>Category</th><th>Qty</th><th>Expiry</th><th>Status</th><th>Actions</th>
         </tr>
         {% for product in products %}
-        <tr style="background-color: {% if product.is_expired %}#f88{% elif product.days_until_expiry <= 7 %}#ff8{% else %}#8f8{% endif %}">
+        <tr style="background-color: {% if product.status == 'Expired' %}#f88{% elif product.status == 'Expiring Soon' %}#ff8{% elif product.status == 'Low Stock' %}#ffcc80{% else %}#8f8{% endif %}">
             <td>{{ product.name }}</td>
             <td>{{ product.category }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.expiry_date }}</td>
-            <td>
-                {% if product.expiry_date >= today %}
-                    <span style="color: #43a047; font-weight: bold;">Available</span>
-                {% else %}
-                    <span style="color: #f44336; font-weight: bold;">Expired</span>
-                {% endif %}
-            </td>
+            <td>{{ product.status }}</td>
             <td>
                 <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
                 <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
