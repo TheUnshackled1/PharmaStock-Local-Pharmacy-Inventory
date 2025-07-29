@@ -67,7 +67,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
         <td>{{ product.quantity }}</td>
-        <td>${{ product.price|floatformat:2 }}</td>
+        <td>₱{{ product.price|floatformat:2 }}</td>
         <td>
             {{ product.expiry_date }}
             {% if product.expiry_date < today %}
@@ -77,11 +77,14 @@
             {% endif %}
         </td>
         <td>
-            {% if product.quantity > 0 %}
+            {% if product.expiry_date < today %}
+                <span style="color: #f44336; font-weight: bold;">Expired</span>
+            {% elif product.quantity > 0 %}
                 {% if user.is_authenticated %}
                     <form action="{% url 'purchase_product' product.pk %}" method="post" class="buy-form">
                         {% csrf_token %}
-                        <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input">
+                        <label for="quantity-{{ product.pk }}">Quantity:</label>
+                        <input type="number" id="quantity-{{ product.pk }}" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input" style="width: 70px; font-size: 1.2rem; padding: 5px;">
                         <button type="submit" class="nav-btn">Buy</button>
                     </form>
                 {% else %}

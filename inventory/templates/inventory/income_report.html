@@ -14,7 +14,7 @@
     </div>
 
     <div class="income-summary">
-        <h2>Total Income: ${{ total_income|floatformat:2 }}</h2>
+        <h2>Total Income: ₱{{ total_income|floatformat:2 }}</h2>
     </div>
 
     <table border="1">
@@ -33,7 +33,7 @@
                 <td>{{ purchase.product.name }}</td>
                 <td>{{ purchase.customer.username }}</td>
                 <td>{{ purchase.quantity }}</td>
-                <td>${{ purchase.total_price|floatformat:2 }}</td>
+                <td>₱{{ purchase.total_price|floatformat:2 }}</td>
                 <td>{{ purchase.purchase_date|date:"Y-m-d H:i" }}</td>
             </tr>
             {% empty %}

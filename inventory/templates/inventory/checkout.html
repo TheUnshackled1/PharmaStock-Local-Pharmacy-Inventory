@@ -20,8 +20,8 @@
         <h2>Order Summary</h2>
         <p><strong>Product:</strong> {{ product.name }}</p>
         <p><strong>Quantity:</strong> {{ quantity }}</p>
-        <p><strong>Price per item:</strong> ${{ product.price|floatformat:2 }}</p>
-        <p><strong>Total Cost:</strong> ${{ total_cost|floatformat:2 }}</p>
+        <p><strong>Price per item:</strong> ₱{{ product.price|floatformat:2 }}</p>
+        <p><strong>Total Cost:</strong> ₱{{ total_cost|floatformat:2 }}</p>
 
         <form method="post" class="payment-form">
             {% csrf_token %}
@@ -31,7 +31,7 @@
         </form>
 
         {% if change is not None %}
-            <p class="change-display"><strong>Change:</strong> ${{ change|floatformat:2 }}</p>
+            <p class="change-display"><strong>Change:</strong> ₱{{ change|floatformat:2 }}</p>
         {% endif %}
 
         <p><a href="{% url 'customer_product_list' %}" class="nav-btn" style="background-color: #6c757d;">Back to Shop</a></p>

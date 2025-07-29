@@ -37,13 +37,14 @@
     <table border="1">
 
          <tr>
-            <th>Name</th><th>Category</th><th>Qty</th><th>Expiry</th><th>Status</th><th>Actions</th>
+            <th>Name</th><th>Category</th><th>Qty</th><th>Price</th><th>Expiry</th><th>Status</th><th>Actions</th>
         </tr>
         {% for product in products %}
         <tr style="background-color: {% if product.status == 'Expired' %}#f88{% elif product.status == 'Expiring Soon' %}#ff8{% elif product.status == 'Low Stock' %}#ffcc80{% else %}#8f8{% endif %}">
             <td>{{ product.name }}</td>
             <td>{{ product.category }}</td>
             <td>{{ product.quantity }}</td>
+            <td>₱{{ product.price|floatformat:2 }}</td>
             <td>{{ product.expiry_date }}</td>
             <td>{{ product.status }}</td>
             <td>

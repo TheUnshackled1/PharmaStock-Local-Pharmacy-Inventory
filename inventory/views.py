@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product
+from .models import Product, Purchase
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
@@ -218,7 +218,7 @@ def checkout(request):
                     total_price=total_cost
                 )
 
-                messages.success(request, f"Purchase successful! Your change is ${change:.2f}.")
+                messages.success(request, f"Purchase successful! Your change is ₱{change:.2f}.")
                 del request.session['purchase_info'] # Clear session data
                 return redirect('customer_product_list')
             else:
