@@ -1,14 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Purchase
+from .models import Product, Purchase, Supplier, Return
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
-
+import pandas as pd
 from django.contrib.auth.models import User
 
 from datetime import date
 
-from .forms import ProductForm
+from .forms import ProductForm, SupplierForm, ReturnForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -232,6 +232,99 @@ def checkout(request):
         'total_cost': total_cost,
         'change': None
     })
+
+@admin_required
+def supplier_list(request):
+    suppliers = Supplier.objects.all()
+    return render(request, 'inventory/supplier_list.html', {'suppliers': suppliers})
+
+@admin_required
+def supplier_create(request):
+    if request.method == 'POST':
+        form = SupplierForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('supplier_list')
+    else:
+        form = SupplierForm()
+    return render(request, 'inventory/supplier_form.html', {'form': form, 'action': 'Add'})
+
+@admin_required
+def supplier_update(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    if request.method == 'POST':
+        form = SupplierForm(request.POST, instance=supplier)
+        if form.is_valid():
+            form.save()
+            return redirect('supplier_list')
+    else:
+        form = SupplierForm(instance=supplier)
+    return render(request, 'inventory/supplier_form.html', {'form': form, 'action': 'Edit'})
+
+@admin_required
+def supplier_delete(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    if request.method == 'POST':
+        supplier.delete()
+        return redirect('supplier_list')
+    return render(request, 'inventory/supplier_confirm_delete.html', {'supplier': supplier})
+
+@admin_required
+def sales_forecast(request):
+    purchases = Purchase.objects.all().values('product__name', 'purchase_date', 'quantity')
+    if not purchases:
+        return render(request, 'inventory/sales_forecast.html', {'forecast': {}})
+
+    df = pd.DataFrame(list(purchases))
+    df['purchase_date'] = pd.to_datetime(df['purchase_date'])
+    df = df.set_index('purchase_date')
+
+    forecast = {}
+    for product_name, group in df.groupby('product__name'):
+        daily_sales = group['quantity'].resample('D').sum()
+        moving_average = daily_sales.rolling(window=7).mean().iloc[-1]
+        forecast[product_name] = moving_average if not pd.isna(moving_average) else 0
+
+    return render(request, 'inventory/sales_forecast.html', {'forecast': forecast})
+
+@login_required
+def request_return(request):
+    if request.method == 'POST':
+        form = ReturnForm(request.POST)
+        if form.is_valid():
+            return_request = form.save(commit=False)
+            return_request.customer = request.user
+            return_request.save()
+            messages.success(request, "Return request submitted successfully.")
+            return redirect('customer_product_list')
+    else:
+        form = ReturnForm()
+    return render(request, 'inventory/request_return.html', {'form': form})
+
+@admin_required
+def manage_returns(request):
+    returns = Return.objects.all()
+    return render(request, 'inventory/manage_returns.html', {'returns': returns})
+
+@admin_required
+def process_return(request, pk, status):
+    return_request = get_object_or_404(Return, pk=pk)
+    if status in ["Approved", "Rejected"]:
+        return_request.status = status
+        if status == "Approved":
+            product = return_request.product
+            product.quantity += return_request.quantity
+            product.save()
+        return_request.save()
+        messages.success(request, f"Return request {status.lower()}.")
+    else:
+        messages.error(request, "Invalid status.")
+    return redirect('manage_returns')
+
+@admin_required
+def view_barcode(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'inventory/view_barcode.html', {'product': product})
 
 
 

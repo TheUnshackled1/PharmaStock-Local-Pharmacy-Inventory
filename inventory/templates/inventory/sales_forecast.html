@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Sales Forecast</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1 class="main-title">Sales Forecast</h1>
+    <div class="nav-links">
+        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
+    </div>
+    <div style="width: 80%; margin: auto;">
+        <canvas id="salesForecastChart"></canvas>
+    </div>
+    <script>
+        var ctx = document.getElementById('salesForecastChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for product, forecast in forecast.items %}"{{ product }}",{% endfor %}],
+                datasets: [{
+                    label: 'Forecasted Sales (Next 7 Days)',
+                    data: [{% for product, forecast in forecast.items %}{{ forecast|floatformat:2 }},{% endfor %}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

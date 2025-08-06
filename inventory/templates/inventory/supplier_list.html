@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Suppliers</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">Suppliers</h1>
+    <div class="nav-links">
+        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
+        <a href="{% url 'supplier_add' %}" class="nav-btn">Add Supplier</a>
+    </div>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Contact Person</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+        {% for supplier in suppliers %}
+        <tr>
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.contact_person }}</td>
+            <td>{{ supplier.email }}</td>
+            <td>{{ supplier.phone_number }}</td>
+            <td>{{ supplier.address }}</td>
+            <td>
+                <a href="{% url 'supplier_edit' supplier.pk %}" class="nav-btn">Edit</a>
+                <a href="{% url 'supplier_delete' supplier.pk %}" class="nav-btn expired">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

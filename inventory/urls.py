@@ -17,6 +17,21 @@ urlpatterns = [
     path('add/', views.product_create, name='product_add'),
     path('edit/<int:pk>/', views.product_update, name='product_edit'),
     path('delete/<int:pk>/', views.product_delete, name='product_delete'),
+    path('barcode/<int:pk>/', views.view_barcode, name='view_barcode'),
+
+    # Supplier management
+    path('suppliers/', views.supplier_list, name='supplier_list'),
+    path('suppliers/add/', views.supplier_create, name='supplier_add'),
+    path('suppliers/edit/<int:pk>/', views.supplier_update, name='supplier_edit'),
+    path('suppliers/delete/<int:pk>/', views.supplier_delete, name='supplier_delete'),
+
+    # Sales forecast
+    path('sales-forecast/', views.sales_forecast, name='sales_forecast'),
+
+    # Product returns
+    path('request-return/', views.request_return, name='request_return'),
+    path('manage-returns/', views.manage_returns, name='manage_returns'),
+    path('process-return/<int:pk>/<str:status>/', views.process_return, name='process_return'),
 
     # Customer shop (optional, can be removed if home.html is the shop)
     path('shop/', views.customer_product_list, name='customer_product_list'),

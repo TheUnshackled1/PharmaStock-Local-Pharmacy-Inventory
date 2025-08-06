@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>View Barcode</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">Barcode for {{ product.name }}</h1>
+    <div style="text-align: center;">
+        <img src="{{ product.barcode.url }}" alt="Barcode for {{ product.name }}">
+    </div>
+    <div class="nav-links">
+        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
+    </div>
+</body>
+</html>

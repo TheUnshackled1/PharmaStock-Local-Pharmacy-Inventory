@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Delete Supplier</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">Delete Supplier</h1>
+    <form method="post">
+        <p>Are you sure you want to delete "{{ supplier.name }}"?</p>
+        {% csrf_token %}
+        <button type="submit" class="nav-btn expired">Delete</button>
+        <a href="{% url 'supplier_list' %}" class="nav-btn">Cancel</a>
+    </form>
+</body>
+</html>

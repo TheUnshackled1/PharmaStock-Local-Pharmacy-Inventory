@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{{ action }} Supplier</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1 class="main-title">{{ action }} Supplier</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="nav-btn">{{ action }}</button>
+        <a href="{% url 'supplier_list' %}" class="nav-btn">Cancel</a>
+    </form>
+</body>
+</html>

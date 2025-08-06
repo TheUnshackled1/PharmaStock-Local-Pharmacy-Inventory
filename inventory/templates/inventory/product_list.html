@@ -30,6 +30,8 @@
                 <a href="/admin/" class="nav-btn" style="background-color: #1976d2; color: white; margin-right: 8px;">Admin Panel</a>
                 <a href="{% url 'customer_product_list' %}" class="nav-btn" style="background-color: #838080ff; color: white;">Check Shop</a>
                 <a href="{% url 'income_report' %}" class="nav-btn" style="background-color: #4CAF50; color: white;">Income Report</a>
+                <a href="{% url 'sales_forecast' %}" class="nav-btn" style="background-color: #ff9800; color: white;">Sales Forecast</a>
+                <a href="{% url 'manage_returns' %}" class="nav-btn" style="background-color: #f44336; color: white;">Manage Returns</a>
                 <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; color: white;">Logout</a>
         </div>
 
@@ -50,7 +52,7 @@
             <td>
                 <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
                 <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
-
+                <a href="{% url 'view_barcode' product.pk %}" class="nav-btn">View Barcode</a>
             </td>
         </tr>
         {% endfor %}
