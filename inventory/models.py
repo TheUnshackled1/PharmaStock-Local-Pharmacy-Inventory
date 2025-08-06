@@ -50,11 +50,14 @@ class Product(models.Model):
         return f"{self.name} ({self.status})"
 
     def save(self, *args, **kwargs):
-        EAN = barcode.get_barcode_class('ean13')
-        ean = EAN(f'{self.pk:012d}', writer=ImageWriter())
-        buffer = BytesIO()
-        ean.write(buffer)
-        self.barcode.save(f'{self.pk}.png', File(buffer), save=False)
+        if self.pk is None:
+            super().save(*args, **kwargs)
+        if not self.barcode:
+            EAN = barcode.get_barcode_class('ean13')
+            ean = EAN(f'{self.id:012d}', writer=ImageWriter())
+            buffer = BytesIO()
+            ean.write(buffer)
+            self.barcode.save(f'{self.id}.png', File(buffer), save=False)
         super().save(*args, **kwargs)
 
 class Purchase(models.Model):
