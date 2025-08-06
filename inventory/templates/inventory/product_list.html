@@ -52,7 +52,7 @@
             <td>
                 <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
                 <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
-                <a href="{% url 'view_barcode' product.pk %}" class="nav-btn">View Barcode</a>
+                <a href="{% url 'view_barcode' product.pk %}" target="_blank" class="nav-btn">View Barcode</a>
             </td>
         </tr>
         {% endfor %}

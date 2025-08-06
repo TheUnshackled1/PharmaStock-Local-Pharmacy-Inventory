@@ -5,6 +5,9 @@ from django.utils import timezone
 from django.contrib import messages
 import pandas as pd
 from django.contrib.auth.models import User
+from django.http import HttpResponse
+import barcode
+from barcode.writer import ImageWriter
 
 from datetime import date
 
@@ -324,7 +327,11 @@ def process_return(request, pk, status):
 @admin_required
 def view_barcode(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    return render(request, 'inventory/view_barcode.html', {'product': product})
+    EAN = barcode.get_barcode_class('ean13')
+    ean = EAN(f'{product.pk:012d}', writer=ImageWriter())
+    response = HttpResponse(content_type='image/png')
+    ean.write(response)
+    return response
 
 
 

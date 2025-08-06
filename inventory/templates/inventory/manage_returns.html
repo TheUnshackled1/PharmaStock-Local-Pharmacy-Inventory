@@ -19,6 +19,7 @@
             <th>Status</th>
             <th>Date Requested</th>
             <th>Actions</th>
+            <th>Product Details</th>
         </tr>
         {% for return in returns %}
         <tr>
@@ -35,6 +36,9 @@
                 {% else %}
                     {{ return.status }}
                 {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'product_edit' return.product.pk %}" class="nav-btn">View Product</a>
             </td>
         </tr>
         {% endfor %}
