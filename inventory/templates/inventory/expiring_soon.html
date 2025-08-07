@@ -13,23 +13,19 @@
         <span class="divider">|</span>
         <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
     </div>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Qty</th>
-            <th>Expiry</th>
-            <th>Days Left</th>
-        </tr>
-        {% for product in products %}
-        <tr style="background-color: #ff8;">
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.expiry_date }}</td>
-            <td>{{ product.days_until_expiry }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+            <div class="product-card-body">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-category">{{ product.category }}</p>
+                <p class="product-price">₱{{ product.price|floatformat:2 }}</p>
+                <p class="product-expiry">Expires in: {{ product.days_until_expiry }} days</p>
+                <p class="product-status status-expiring-soon">Expiring Soon</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>

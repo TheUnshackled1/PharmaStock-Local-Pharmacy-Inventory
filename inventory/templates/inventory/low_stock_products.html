@@ -15,21 +15,19 @@
         <span class="divider">|</span>
         <a href="{% url 'expiring_soon' %}" class="nav-btn expiring">Expiring Soon</a>
     </div>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Qty</th>
-            <th>Threshold</th>
-        </tr>
-        {% for product in products %}
-        <tr style="background-color: #ffcc80;">
-            <td>{{ product.name }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.low_stock_threshold }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+            <div class="product-card-body">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-category">{{ product.category }}</p>
+                <p class="product-quantity">Current Stock: {{ product.quantity }}</p>
+                <p class="product-threshold">Threshold: {{ product.low_stock_threshold }}</p>
+                <p class="product-status status-low-stock">Low Stock</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>

@@ -36,34 +36,28 @@
         </div>
 
         
-    <table border="1">
-
-         <tr>
-            <th>Name</th><th>Image</th><th>Category</th><th>Qty</th><th>Price</th><th>Expiry</th><th>Status</th><th>Actions</th>
-        </tr>
-        {% for product in products %}
-        <tr style="background-color: {% if product.status == 'Expired' %}#f88{% elif product.status == 'Expiring Soon' %}#ff8{% elif product.status == 'Low Stock' %}#ffcc80{% else %}#8f8{% endif %}">
-            <td>{{ product.name }}</td>
-            <td>
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
-                {% else %}
-                    No Image
-                {% endif %}
-            </td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>₱{{ product.price|floatformat:2 }}</td>
-            <td>{{ product.expiry_date }}</td>
-            <td>{{ product.status }}</td>
-            <td>
-                <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
-                <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
-                <button class="nav-btn view-barcode-btn" data-product-pk="{{ product.pk }}">View Barcode</button>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+            <div class="product-card-body">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-category">{{ product.category }}</p>
+                <p class="product-price">₱{{ product.price|floatformat:2 }}</p>
+                <p class="product-status status-{{ product.status|lower|slugify }}">{{ product.status }}</p>
+                <div class="product-actions">
+                    <div class="action-row">
+                        <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
+                        <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
+                    </div>
+                    <div class="action-row">
+                        <button class="nav-btn view-barcode-btn" data-product-pk="{{ product.pk }}">Barcode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
         <script>
         // Highlight row on hover
