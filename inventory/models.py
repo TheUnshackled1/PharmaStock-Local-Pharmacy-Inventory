@@ -24,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     low_stock_threshold = models.PositiveIntegerField(default=10)
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
     barcode = models.ImageField(upload_to='barcodes/', blank=True)
 
     def is_expired(self):

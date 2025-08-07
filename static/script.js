@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('script.js loaded and DOMContentLoaded fired.');
     // Modal buy logic for home.html
     var modalBg = document.getElementById('buyModalBg');
     var modalProductName = document.getElementById('modalProductName');
@@ -40,5 +41,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.transform = '';
             });
         });
+    });
+
+    // Barcode Modal Logic
+    const barcodeModal = document.getElementById('barcodeModal');
+    const barcodeImage = document.getElementById('barcodeImage');
+    const closeModal = document.querySelector('.close-button');
+    const viewBarcodeButtons = document.querySelectorAll('.view-barcode-btn');
+
+    viewBarcodeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productPk;
+            barcodeImage.src = `/barcode/${productId}/`; // Assuming your barcode URL is /barcode/<pk>/
+            barcodeModal.style.display = 'block';
+        });
+    });
+
+    closeModal.addEventListener('click', function() {
+        barcodeModal.style.display = 'none';
+        barcodeImage.src = ''; // Clear image source
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == barcodeModal) {
+            barcodeModal.style.display = 'none';
+            barcodeImage.src = ''; // Clear image source
+        }
     });
 });

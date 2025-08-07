@@ -8,8 +8,8 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
 
 
-    # Admin-only product management
-    path('dashboard/products/', views.product_list, name='product_list'),
+    # Admin-only product 
+    path('products/', views.product_list, name='product_list'),
     path('expired/', views.expired_products, name='expired_products'),
     path('expiring-soon/', views.expiring_soon_products, name='expiring_soon'),
     path('low-stock/', views.low_stock_products, name='low_stock'),

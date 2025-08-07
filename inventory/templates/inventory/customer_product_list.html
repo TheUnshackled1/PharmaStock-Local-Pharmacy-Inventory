@@ -55,6 +55,7 @@
             </div>
             <tr>
                 <th>Name</th>
+                <th>Image</th>
                 <th>Category</th>
                 <th>Qty</th>
                 <th>Price</th>
@@ -66,6 +67,13 @@
     {% for product in products %}
     <tr style="background-color: {% if product.expiry_date < today %}#ffebee{% else %}#e8f5e9{% endif %};">
         <td>{{ product.name }}</td>
+        <td>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+            {% else %}
+                No Image
+            {% endif %}
+        </td>
         <td>{{ product.category }}</td>
         <td>{{ product.quantity }}</td>
         <td>₱{{ product.price|floatformat:2 }}</td>

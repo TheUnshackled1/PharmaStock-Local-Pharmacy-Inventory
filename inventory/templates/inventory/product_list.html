@@ -39,11 +39,18 @@
     <table border="1">
 
          <tr>
-            <th>Name</th><th>Category</th><th>Qty</th><th>Price</th><th>Expiry</th><th>Status</th><th>Actions</th>
+            <th>Name</th><th>Image</th><th>Category</th><th>Qty</th><th>Price</th><th>Expiry</th><th>Status</th><th>Actions</th>
         </tr>
         {% for product in products %}
         <tr style="background-color: {% if product.status == 'Expired' %}#f88{% elif product.status == 'Expiring Soon' %}#ff8{% elif product.status == 'Low Stock' %}#ffcc80{% else %}#8f8{% endif %}">
             <td>{{ product.name }}</td>
+            <td>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
             <td>{{ product.category }}</td>
             <td>{{ product.quantity }}</td>
             <td>₱{{ product.price|floatformat:2 }}</td>
@@ -52,7 +59,7 @@
             <td>
                 <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
                 <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
-                <a href="{% url 'view_barcode' product.pk %}" target="_blank" class="nav-btn">View Barcode</a>
+                <button class="nav-btn view-barcode-btn" data-product-pk="{{ product.pk }}">View Barcode</button>
             </td>
         </tr>
         {% endfor %}
@@ -71,6 +78,86 @@
                 this.style.transform = '';
             });
         });
+
+        // Barcode Modal Logic
+        const barcodeModal = document.getElementById('barcodeModal');
+        const barcodeImage = document.getElementById('barcodeImage');
+        const closeModal = document.querySelector('.close-button');
+        const viewBarcodeButtons = document.querySelectorAll('.view-barcode-btn');
+
+        viewBarcodeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.productPk;
+                barcodeImage.src = `/barcode/${productId}/`; // Assuming your barcode URL is /barcode/<pk>/
+                barcodeModal.style.display = 'block';
+            });
+        });
+
+        closeModal.addEventListener('click', function() {
+            barcodeModal.style.display = 'none';
+            barcodeImage.src = ''; // Clear image source
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == barcodeModal) {
+                barcodeModal.style.display = 'none';
+                barcodeImage.src = ''; // Clear image source
+            }
+        });
     </script>
+
+    <!-- Barcode Modal HTML -->
+    <div id="barcodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Product Barcode</h2>
+            <img id="barcodeImage" src="" alt="Product Barcode" style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <!-- Inline CSS for Modal (will be moved to styles.css later) -->
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+            text-align: center;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
+            top: 5px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </body>
 </html>
