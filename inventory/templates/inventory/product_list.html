@@ -50,6 +50,7 @@
                         <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
                         <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
                     </div>
+                    {% comment %} space here in the ui the barcode has no margin above {% endcomment %}
                     <div class="action-row">
                         <button class="nav-btn view-barcode-btn" data-product-pk="{{ product.pk }}">Barcode</button>
                     </div>

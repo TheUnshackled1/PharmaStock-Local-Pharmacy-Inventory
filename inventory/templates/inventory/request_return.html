@@ -1,17 +1,32 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>Request Return</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <h1 class="main-title">Request a Return</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="nav-btn">Submit Request</button>
-        <a href="{% url 'customer_product_list' %}" class="nav-btn">Cancel</a>
-    </form>
-</body>
-</html>
+{% extends 'inventory/base.html' %}
+
+{% block title %}Request Return - PharmaStock{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center">Request a Return</h2>
+                <p class="card-text text-center">Fill out the form below to request a product return.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors|join:", " }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                        <a href="{% url 'customer_product_list' %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

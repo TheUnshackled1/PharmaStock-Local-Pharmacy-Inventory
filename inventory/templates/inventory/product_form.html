@@ -1,18 +1,47 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>{{ action }} Product</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script src="{% static 'script.js' %}"></script>
-</head>
-<body>
-    <h1 class="main-title">{{ action }} Product</h1>
+{% extends 'inventory/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit Product{% else %}New Product{% endif %} - PharmaStock{% endblock %}
+
+{% block page_title %}{% if form.instance.pk %}Edit Product{% else %}Add a New Product{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="nav-btn">{{ action }}</button>
-        <a href="{% url 'product_list' %}" class="nav-btn">Cancel</a>
+        <div class="form-group">
+            <label for="id_name">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="id_description">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="id_quantity">Quantity</label>
+            {{ form.quantity }}
+        </div>
+        <div class="form-group">
+            <label for="id_price">Price</label>
+            {{ form.price }}
+        </div>
+        <div class="form-group">
+            <label for="id_supplier">Supplier</label>
+            {{ form.supplier }}
+        </div>
+        <div class="form-group">
+            <label for="id_expiry_date">Expiry Date</label>
+            {{ form.expiry_date }}
+        </div>
+        <div class="form-group">
+            <label for="id_low_stock_threshold">Low Stock Threshold</label>
+            {{ form.low_stock_threshold }}
+        </div>
+        <div class="form-group">
+            <label for="id_image">Image</label>
+            {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Product</button>
+        <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

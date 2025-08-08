@@ -11,7 +11,7 @@ from barcode.writer import ImageWriter
 
 from datetime import date
 
-from .forms import ProductForm, SupplierForm, ReturnForm
+from .forms import ProductForm, SupplierForm, ReturnForm, SignUpForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -37,28 +37,19 @@ def login_view(request):
     return render(request, 'inventory/login.html', {'message': message})
 
 def signup_view(request):
-    message = ''
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-
-        if password1 != password2:
-            message = "Passwords do not match."
-        elif User.objects.filter(username=username).exists():
-            message = "Username already taken."
-        else:
-            user = User.objects.create_user(username=username, password=password1)
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
             login(request, user)
             return redirect('customer_product_list')
-
-    return render(request, 'inventory/signup.html', {'message': message})
-
+    else:
+        form = SignUpForm()
+    return render(request, 'inventory/signup.html', {'form': form})
 
 def logout_view(request):
     logout(request)
     return redirect('home')
-
 
 def admin_required(view_func):
     decorated_view_func = login_required(user_passes_test(lambda u: u.is_staff)(view_func))
@@ -332,7 +323,3 @@ def view_barcode(request, pk):
     response = HttpResponse(content_type='image/png')
     ean.write(response)
     return response
-
-
-
-

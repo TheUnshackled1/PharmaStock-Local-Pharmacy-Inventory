@@ -1,47 +1,41 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>Manage Returns</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <h1 class="main-title">Manage Returns</h1>
-    <div class="nav-links">
-        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
-    </div>
-    <table border="1">
-        <tr>
-            <th>Product</th>
-            <th>Customer</th>
-            <th>Quantity</th>
-            <th>Reason</th>
-            <th>Status</th>
-            <th>Date Requested</th>
-            <th>Actions</th>
-            <th>Product Details</th>
-        </tr>
-        {% for return in returns %}
-        <tr>
-            <td>{{ return.product.name }}</td>
-            <td>{{ return.customer.username }}</td>
-            <td>{{ return.quantity }}</td>
-            <td>{{ return.reason }}</td>
-            <td>{{ return.status }}</td>
-            <td>{{ return.date_requested|date:"Y-m-d H:i" }}</td>
-            <td>
-                {% if return.status == "Pending" %}
-                    <a href="{% url 'process_return' return.pk 'Approved' %}" class="nav-btn">Approve</a>
-                    <a href="{% url 'process_return' return.pk 'Rejected' %}" class="nav-btn expired">Reject</a>
-                {% else %}
-                    {{ return.status }}
-                {% endif %}
-            </td>
-            <td>
-                <a href="{% url 'product_edit' return.product.pk %}" class="nav-btn">View Product</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+{% extends 'inventory/base.html' %}
+
+{% block title %}Manage Returns - PharmaStock{% endblock %}
+
+{% block page_title %}Manage Returns{% endblock %}
+
+{% block content %}
+<table border="1">
+    <tr>
+        <th>Product</th>
+        <th>Customer</th>
+        <th>Quantity</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Date Requested</th>
+        <th>Actions</th>
+        <th>Product Details</th>
+    </tr>
+    {% for return in returns %}
+    <tr>
+        <td>{{ return.product.name }}</td>
+        <td>{{ return.customer.username }}</td>
+        <td>{{ return.quantity }}</td>
+        <td>{{ return.reason }}</td>
+        <td>{{ return.status }}</td>
+        <td>{{ return.date_requested|date:"Y-m-d H:i" }}</td>
+        <td>
+            {% if return.status == "Pending" %}
+                <a href="{% url 'process_return' return.pk 'Approved' %}" class="btn btn-success">Approve</a>
+                <a href="{% url 'process_return' return.pk 'Rejected' %}" class="btn btn-danger">Reject</a>
+            {% else %}
+                {{ return.status }}
+            {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'product_edit' return.product.pk %}" class="btn btn-secondary">View Product</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

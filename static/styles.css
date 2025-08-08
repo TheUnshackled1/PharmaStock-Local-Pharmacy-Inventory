@@ -1,5 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
 
-/* Product Grid Layout */
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding-top: 30px;
+    min-height: 70px;
+    border-bottom: #77aaff 3px solid;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+header ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    float: right;
+}
+
+header li {
+    display: inline;
+    padding: 0 20px 0 20px;
+}
+
+header #branding {
+    float: left;
+}
+
+header #branding h1 {
+    margin: 0;
+}
+
+.main-title {
+    text-align: center;
+    color: #333;
+    font-size: 2.5em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.low-stock-alert {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-weight: bold;
+}
+
+.low-stock-alert a {
+    color: #f44336;
+    text-decoration: underline;
+}
+
+
+.nav-links {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-btn.expired {
+    background-color: #d9534f;
+}
+
+.nav-btn.expiring {
+    background-color: #f0ad4e;
+}
+
+.nav-btn.low-stock {
+    background-color: #5bc0de;
+}
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -8,21 +105,20 @@
 }
 
 .product-card {
-    background: #fff;
+    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
 .product-card img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
 }
 
@@ -31,94 +127,94 @@
 }
 
 .product-name {
-    font-size: 1.2rem;
+    font-size: 1.2em;
     font-weight: bold;
-    margin: 0 0 10px;
+    margin: 0 0 10px 0;
 }
 
 .product-category {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0 0 10px;
+    color: #777;
+    margin-bottom: 10px;
 }
 
 .product-price {
-    font-size: 1.1rem;
+    font-size: 1.1em;
     font-weight: bold;
-    color: #1976d2;
-    margin: 0 0 10px;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .product-status {
     padding: 5px 10px;
-    border-radius: 5px;
-    color: #fff;
+    border-radius: 12px;
+    color: white;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 15px;
 }
 
-.status-expired {
-    background-color: #d32f2f;
-}
-
-.status-expiring-soon {
-    background-color: #ff9800;
-}
-
-.status-low-stock {
-    background-color: #ffc107;
-}
-
-.status-fresh {
-    background-color: #4caf50;
+.status-in-stock {
+    background-color: #5cb85c;
 }
 
 .status-out-of-stock {
-    color: #d32f2f;
-    font-weight: bold;
+    background-color: #d9534f;
 }
 
 .product-actions {
     display: flex;
     flex-direction: column;
-    margin-top: 15px;
+    gap: 10px;
 }
 
 .action-row {
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: space-between;
 }
 
-.action-row:not(:last-child) {
-    margin-bottom: 15px;
-}
-
-.buy-form {
-    display: flex;
-    align-items: center;
-}
-
-.quantity-input {
-    width: 60px;
-    margin-right: 10px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.product-actions .nav-btn {
-    margin: 0 5px;
-    padding: 8px 15px;
-    font-size: 0.9rem;
-    min-width: 80px;
+.action-row .nav-btn {
+    flex: 1;
     text-align: center;
 }
 
-.product-actions .nav-btn:first-child {
-    margin-left: 0;
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
 }
 
-.product-actions .nav-btn:last-child {
-    margin-right: 0;
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 5px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

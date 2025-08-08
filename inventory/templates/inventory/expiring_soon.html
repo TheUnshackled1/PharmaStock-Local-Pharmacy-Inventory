@@ -1,31 +1,22 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>Expiring Soon</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script src="{% static 'script.js' %}"></script>
-</head>
-<body>
-    <h1 class="main-title">Expiring Soon</h1>
-    <div class="nav-links">
-        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
-        <span class="divider">|</span>
-        <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
-    </div>
-    <div class="product-grid">
+{% extends 'inventory/base.html' %}
+
+{% block title %}Expiring Soon - PharmaStock{% endblock %}
+
+{% block page_title %}Expiring Soon{% endblock %}
+
+{% block content %}
+<div class="product-grid">
     {% for product in products %}
         <div class="product-card">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
             <div class="product-card-body">
                 <h3 class="product-name">{{ product.name }}</h3>
-                <p class="product-category">{{ product.category }}</p>
-                <p class="product-price">₱{{ product.price|floatformat:2 }}</p>
                 <p class="product-expiry">Expires in: {{ product.days_until_expiry }} days</p>
                 <p class="product-status status-expiring-soon">Expiring Soon</p>
             </div>
         </div>
     {% endfor %}
 </div>
-</body>
-</html>
+{% endblock %}

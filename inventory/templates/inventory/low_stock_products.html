@@ -1,27 +1,18 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>Low Stock Products</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script src="{% static 'script.js' %}"></script>
-</head>
-<body>
-    <h1 class="main-title">Low Stock Products</h1>
-    <div class="nav-links">
-        <a href="{% url 'product_list' %}" class="nav-btn">All Products</a>
-        <span class="divider">|</span>
-        <a href="{% url 'expired_products' %}" class="nav-btn expired">Expired Products</a>
-        <span class="divider">|</span>
-        <a href="{% url 'expiring_soon' %}" class="nav-btn expiring">Expiring Soon</a>
-    </div>
-    <div class="product-grid">
+{% extends 'inventory/base.html' %}
+
+{% block title %}Low Stock Products - PharmaStock{% endblock %}
+
+{% block page_title %}Low Stock Products{% endblock %}
+
+{% block content %}
+<div class="product-grid">
     {% for product in products %}
         <div class="product-card">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
             <div class="product-card-body">
                 <h3 class="product-name">{{ product.name }}</h3>
-                <p class="product-category">{{ product.category }}</p>
                 <p class="product-quantity">Current Stock: {{ product.quantity }}</p>
                 <p class="product-threshold">Threshold: {{ product.low_stock_threshold }}</p>
                 <p class="product-status status-low-stock">Low Stock</p>
@@ -29,5 +20,4 @@
         </div>
     {% endfor %}
 </div>
-</body>
-</html>
+{% endblock %}

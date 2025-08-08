@@ -6,61 +6,73 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-        <h1 class="main-title">Shop Products</h1>
+    <h1 class="main-title">Shop Products</h1>
 
+    {% if user.is_authenticated %}
+        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
+            Welcome, <strong>{{ user.username|capfirst }}</strong>!
+        </p>
+    {% endif %}
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div style="text-align:center; margin-bottom: 16px;">
         {% if user.is_authenticated %}
-            <div style="text-align: center; margin-bottom: 20px;">
-                <p style="font-size: 1.1rem;">
-                    Welcome, <strong>{{ user.username|capfirst }}</strong>!
-                </p>
-                <div class="nav-links" style="margin-top: 10px; justify-content: center;">
-                    {% if user.is_staff %}
-                        <a href="{% url 'product_list' %}" class="nav-btn">Dashboard</a>
-                        <a href="/admin/" class="nav-btn">Admin Panel</a>
-                    {% else %}
-                        <a href="{% url 'request_return' %}" class="nav-btn">Request Return</a>
-                    {% endif %}
-                    <a href="{% url 'logout' %}" class="nav-btn expired">Logout</a>
-                </div>
-            </div>
+            {% if user.is_staff %}
+                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; margin-right: 8px;">Logout</a>
+                <a href="{% url 'product_list' %}" class="nav-btn" style="background-color: #1976d2; margin-right: 8px;">Dashboard</a>
+                <a href="/admin/" class="nav-btn" style="background-color: #455a64;">Admin Panel</a>
+            {% else %}
+                <a href="{% url 'request_return' %}" class="nav-btn" style="background-color: #ff9800; margin-right: 8px;">Request Return</a>
+                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242;">Logout</a>
+            {% endif %}
         {% endif %}
-        
+    </div>
 
-     {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-     <div class="product-grid">
-    {% for product in products %}
-        <div class="product-card">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
-            <div class="product-card-body">
-                <h3 class="product-name">{{ product.name }}</h3>
-                <p class="product-category">{{ product.category }}</p>
-                <p class="product-price">₱{{ product.price|floatformat:2 }}</p>
-                <p class="product-expiry">Expires: {{ product.expiry_date }}</p>
-                <div class="product-actions">
-                    {% if product.quantity > 0 %}
-                        {% if user.is_authenticated %}
-                            <form action="{% url 'purchase_product' product.pk %}" method="post" class="buy-form">
-                                {% csrf_token %}
-                                <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input">
-                                <button type="submit" class="nav-btn">Buy</button>
-                            </form>
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card" style="background-color: {% if product.expiry_date < today %}#ffebee{% else %}#e8f5e9{% endif %};">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default.png' %}{% endif %}" alt="{{ product.name }}">
+                <div class="product-card-body">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-category">{{ product.category }}</p>
+                    <p class="product-price">₱{{ product.price|floatformat:2 }}</p>
+                    <p>
+                        Expiry: {{ product.expiry_date }}
+                        {% if product.expiry_date < today %}
+                            <span style="color: red; font-weight: bold;">(Expired)</span>
                         {% else %}
-                            <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                            <span style="color: green; font-weight: bold;">(OK)</span>
                         {% endif %}
-                    {% else %}
-                        <p class="status-out-of-stock">Out of Stock</p>
-                    {% endif %}
+                    </p>
+                    <p>Qty: {{ product.quantity }}</p>
+                    <div class="product-actions">
+                        {% if product.expiry_date < today %}
+                            <span style="color: #f44336; font-weight: bold;">Expired</span>
+                        {% elif product.quantity > 0 %}
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'purchase_product' product.pk %}" method="post" class="buy-form">
+                                    {% csrf_token %}
+                                    <label for="quantity-{{ product.pk }}">Quantity:</label>
+                                    <input type="number" id="quantity-{{ product.pk }}" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input" style="width: 70px; font-size: 1.2rem; padding: 5px;">
+                                    <button type="submit" class="nav-btn">Buy</button>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
+                            {% endif %}
+                        {% else %}
+                            <span style="color: #f44336; font-weight: bold;">Out of Stock</span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 </body>
 </html>

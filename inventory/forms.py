@@ -1,15 +1,20 @@
 from django import forms
 from .models import Product, Supplier, Return
+from django.contrib.auth.forms import UserCreationForm
+
+class SignUpForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        fields = UserCreationForm.Meta.fields + ('email',)
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'category', 'quantity', 'expiry_date', 'low_stock_threshold', 'price', 'supplier', 'image']
+        fields = '__all__'
 
 class SupplierForm(forms.ModelForm):
     class Meta:
         model = Supplier
-        fields = ['name', 'contact_person', 'email', 'phone_number', 'address']
+        fields = '__all__'
 
 class ReturnForm(forms.ModelForm):
     class Meta:

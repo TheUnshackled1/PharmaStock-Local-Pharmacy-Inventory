@@ -1,17 +1,35 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <title>{{ action }} Supplier</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <h1 class="main-title">{{ action }} Supplier</h1>
+{% extends 'inventory/base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit Supplier{% else %}New Supplier{% endif %} - PharmaStock{% endblock %}
+
+{% block page_title %}{% if form.instance.pk %}Edit Supplier{% else %}Add a New Supplier{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-container">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="nav-btn">{{ action }}</button>
-        <a href="{% url 'supplier_list' %}" class="nav-btn">Cancel</a>
+        <div class="form-group">
+            <label for="id_name">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="id_contact_person">Contact Person</label>
+            {{ form.contact_person }}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_phone">Phone</label>
+            {{ form.phone }}
+        </div>
+        <div class="form-group">
+            <label for="id_address">Address</label>
+            {{ form.address }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Supplier</button>
+        <a href="{% url 'supplier_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}
