@@ -4,6 +4,7 @@
 <head>
     <title>Shop Products</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <h1 class="main-title">Shop Products</h1>
@@ -22,15 +23,15 @@
         </ul>
     {% endif %}
 
-    <div style="text-align:center; margin-bottom: 16px;">
+    <div class="text-center mb-3">
         {% if user.is_authenticated %}
             {% if user.is_staff %}
-                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242; margin-right: 8px;">Logout</a>
-                <a href="{% url 'product_list' %}" class="nav-btn" style="background-color: #1976d2; margin-right: 8px;">Dashboard</a>
-                <a href="/admin/" class="nav-btn" style="background-color: #455a64;">Admin Panel</a>
+                <a href="{% url 'logout' %}" class="btn btn-dark me-2">Logout</a>
+                <a href="{% url 'product_list' %}" class="btn btn-primary me-2">Dashboard</a>
+                <a href="/admin/" class="btn btn-secondary">Admin Panel</a>
             {% else %}
-                <a href="{% url 'request_return' %}" class="nav-btn" style="background-color: #ff9800; margin-right: 8px;">Request Return</a>
-                <a href="{% url 'logout' %}" class="nav-btn" style="background-color: #424242;">Logout</a>
+                <a href="{% url 'request_return' %}" class="btn btn-warning me-2">Request Return</a>
+                <a href="{% url 'logout' %}" class="btn btn-dark">Logout</a>
             {% endif %}
         {% endif %}
     </div>
@@ -52,7 +53,15 @@
                         {% endif %}
                     </p>
                     <p>Qty: {{ product.quantity }}</p>
+
                     <div class="product-actions">
+                        <!-- View Barcode Button -->
+                        <button 
+                                class="btn btn-secondary view-barcode-btn" 
+                            data-barcode-url="{% url 'view_barcode' product.pk %}">
+                            View Barcode
+                        </button>
+
                         {% if product.expiry_date < today %}
                             <span style="color: #f44336; font-weight: bold;">Expired</span>
                         {% elif product.quantity > 0 %}
@@ -61,7 +70,7 @@
                                     {% csrf_token %}
                                     <label for="quantity-{{ product.pk }}">Quantity:</label>
                                     <input type="number" id="quantity-{{ product.pk }}" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input" style="width: 70px; font-size: 1.2rem; padding: 5px;">
-                                    <button type="submit" class="nav-btn">Buy</button>
+                                    <button type="submit" class="btn btn-success">Buy</button>
                                 </form>
                             {% else %}
                                 <a href="{% url 'login' %}?next={% url 'customer_product_list' %}" class="nav-btn">Buy</a>
@@ -74,5 +83,77 @@
             </div>
         {% endfor %}
     </div>
+
+    <!-- Barcode Modal -->
+    <div id="barcodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Product Barcode</h2>
+            <img id="barcodeImage" src="" alt="Product Barcode" style="max-width: 100%; height: auto; margin-top: 10px;">
+        </div>
+    </div>
+
+    <!-- Modal Styles -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .close-button {
+            position: absolute;
+            top: 5px; right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            color: black;
+        }
+    </style>
+
+    <!-- Modal Script -->
+    <script>
+        const barcodeModal = document.getElementById('barcodeModal');
+        const barcodeImage = document.getElementById('barcodeImage');
+        const closeModal = document.querySelector('.close-button');
+        const viewBarcodeButtons = document.querySelectorAll('.view-barcode-btn');
+
+        viewBarcodeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const barcodeUrl = this.dataset.barcodeUrl;
+                barcodeImage.src = barcodeUrl;
+                barcodeModal.style.display = 'block';
+            });
+        });
+
+        closeModal.addEventListener('click', function() {
+            barcodeModal.style.display = 'none';
+            barcodeImage.src = '';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == barcodeModal) {
+                barcodeModal.style.display = 'none';
+                barcodeImage.src = '';
+            }
+        });
+    </script>
 </body>
 </html>

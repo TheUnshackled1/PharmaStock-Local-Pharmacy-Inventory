@@ -315,7 +315,6 @@ def process_return(request, pk, status):
         messages.error(request, "Invalid status.")
     return redirect('manage_returns')
 
-@admin_required
 def view_barcode(request, pk):
     product = get_object_or_404(Product, pk=pk)
     EAN = barcode.get_barcode_class('ean13')

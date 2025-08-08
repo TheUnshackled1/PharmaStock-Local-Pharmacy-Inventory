@@ -26,7 +26,7 @@
         </div>
 
         <div style="text-align:center; margin-bottom: 16px;">
-                <a href="{% url 'product_add' %}" class="nav-btn" style="margin-right: 8px;">Add Product</a>
+                <a href="{% url 'product_add' %}" class="nav-btn" style="background-color: #31465aff; color: white; margin-right: 8px;" style="margin-right: 8px;">Add Product</a>
                 <a href="/admin/" class="nav-btn" style="background-color: #1976d2; color: white; margin-right: 8px;">Admin Panel</a>
                 <a href="{% url 'customer_product_list' %}" class="nav-btn" style="background-color: #838080ff; color: white;">Check Shop</a>
                 <a href="{% url 'income_report' %}" class="nav-btn" style="background-color: #4CAF50; color: white;">Income Report</a>
@@ -47,12 +47,19 @@
                 <p class="product-status status-{{ product.status|lower|slugify }}">{{ product.status }}</p>
                 <div class="product-actions">
                     <div class="action-row">
-                        <a href="{% url 'product_edit' product.pk %}" class="nav-btn">Edit</a>
+                        <a href="{% url 'product_edit' product.pk %}" 
+                        class="nav-btn" 
+                        style="background-color: green; color: white;">
+                        Edit
+                        </a>
                         <a href="{% url 'product_delete' product.pk %}" class="nav-btn expired">Delete</a>
                     </div>
-                    {% comment %} space here in the ui the barcode has no margin above {% endcomment %}
                     <div class="action-row">
-                        <button class="nav-btn view-barcode-btn" data-product-pk="{{ product.pk }}">Barcode</button>
+                        <button class="nav-btn view-barcode-btn" 
+                                data-product-pk="{{ product.pk }}" 
+                                style="background-color: gray; color: white;">
+                            Barcode
+                        </button>
                     </div>
                 </div>
             </div>
