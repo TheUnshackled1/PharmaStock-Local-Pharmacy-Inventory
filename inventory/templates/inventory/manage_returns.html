@@ -5,7 +5,7 @@
 {% block page_title %}Manage Returns{% endblock %}
 
 {% block content %}
-<table border="1">
+<table border="1" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
     <tr>
         <th>Product</th>
         <th>Customer</th>
@@ -38,4 +38,13 @@
     </tr>
     {% endfor %}
 </table>
+
+<!-- Go Back Button -->
+<div style="text-align: center;">
+    <button 
+        onclick="window.history.back()" 
+        style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        ← Go Back
+    </button>
+</div>
 {% endblock %}
