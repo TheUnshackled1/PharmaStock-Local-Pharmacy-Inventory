@@ -1,4 +1,3 @@
-
 import os
 import django
 from PIL import Image, ImageDraw, ImageFont
