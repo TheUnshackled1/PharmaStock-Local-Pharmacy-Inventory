@@ -80,30 +80,22 @@ The result is an efficient, safe, and data-driven environment for modern pharmac
 
 ### Overall Flow
 
-```text
-Supplier Delivery
-    │
-    ├─ Add Product (Price, Quantity, Expiry)
-    ├─ Auto-Generate Barcode
-    └─ Update Database
-             │
-             ▼
-     ┌───────────────────┐
-     │  Inventory DB     │
-     │  (SQLite)         │
-     └────────┬──────────┘
-              │
-              ▼
-     ┌───────────────────────┐
-     │  Admin Dashboard      │
-     │  (Stock Alerts /      │
-     │   Expiry Tracking)    │
-     └────────┬──────────────┘
-              │
-              ▼
-     ┌─────────────────────┐
-     │ Customer Storefront │ ◄── Browse, Checkout, Request Returns
-     └─────────────────────┘
+```mermaid
+flowchart TD
+    Supplier([📦 Supplier Delivery]) -->|Receive & Input| AddProd[Add Product Details<br/>Price, Quantity, Expiry]
+    AddProd -->|Process| Barcode[🏷️ Auto-Generate Barcode]
+    Barcode -->|Update| DB[(🗄️ Inventory DB<br/>SQLite)]
+    
+    DB -->|Real-time sync| Admin[👔 Admin Dashboard]
+    Admin -.->|Monitor| Alerts[Stock & Expiry Alerts]
+    
+    DB -->|Available items| Store[🛒 Customer Storefront]
+    Store -->|Browse & Checkout| Checkout((Process Sale))
+    Store -.->|Request Returns| Admin
+    
+    style DB fill:#003B57,color:#fff,stroke:#000,stroke-width:2px
+    style Admin fill:#092E20,color:#fff,stroke:#000,stroke-width:2px
+    style Store fill:#150458,color:#fff,stroke:#000,stroke-width:2px
 ```
 
 ---
