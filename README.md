@@ -214,20 +214,20 @@ The application will be available at **http://127.0.0.1:8000/**
 ## 📁 Project Structure
 
 ```text
-stock/
-├── inventory/         # Main application
-│   ├── migrations/    # Database migrations
-│   ├── templates/     # HTML templates
-│   ├── models.py      # Database models
-│   ├── urls.py        # URL routing for the app
-│   └── views.py       # Application logic
-├── stocktime/         # Django project configuration
-│   ├── settings.py    # Project settings
-│   └── urls.py        # Root URL configuration
-├── static/            # Static files (CSS, JS, images)
-├── media/             # User-uploaded files (product images, barcodes)
-├── manage.py          # Django's command-line utility
-└── db.sqlite3         # SQLite database
+📦 stock/
+├── 📂 inventory/         # Main application
+│   ├── 📁 migrations/    # Database migrations
+│   ├── 📁 templates/     # HTML templates
+│   ├── 🐍 models.py      # Database models
+│   ├── 🐍 urls.py        # URL routing for the app
+│   └── 🐍 views.py       # Application logic
+├── ⚙️ stocktime/         # Django project configuration
+│   ├── 🐍 settings.py    # Project settings
+│   └── 🐍 urls.py        # Root URL configuration
+├── 🎨 static/            # Static files (CSS, JS, images)
+├── 🖼️ media/             # User-uploaded files (product images, barcodes)
+├── 🛠️ manage.py          # Django's command-line utility
+└── 🗄️ db.sqlite3         # SQLite database
 ```
 
 ---
