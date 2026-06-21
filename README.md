@@ -192,7 +192,17 @@ The application will be available at **http://127.0.0.1:8000/**
 
 ## 🖼️ UI Snapshots
 
-> *UI snapshots will be added here.*
+| Admin Dashboard | Customer Storefront |
+| :---: | :---: |
+| <img src="https://placehold.co/600x400?text=Admin+Dashboard" width="100%"> | <img src="https://placehold.co/600x400?text=Customer+Storefront" width="100%"> |
+| *Comprehensive view of stock alerts, expiry tracking, and sales analytics.* | *Clean product catalog and seamless checkout experience for customers.* |
+
+| Product Management | Stock Alerts |
+| :---: | :---: |
+| <img src="https://placehold.co/600x400?text=Product+Management" width="100%"> | <img src="https://placehold.co/600x400?text=Stock+Alerts" width="100%"> |
+| *Add, edit, and organize inventory items with automated EAN-13 barcoding.* | *Automated alerts for low-stock and soon-to-expire items to minimize waste.* |
+
+*(Replace the placeholder image URLs above with your actual screenshot paths!)*
 
 ---
 
