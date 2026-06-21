@@ -22,6 +22,7 @@
 - [Usage](#-usage)
 - [UI Snapshots](#️-ui-snapshots)
 - [Configuration & Security](#️-configuration--security)
+- [Project Structure](#-project-structure)
 - [About](#-about)
 - [License](#-license)
 
