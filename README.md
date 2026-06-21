@@ -1,100 +1,251 @@
-# PharmaStock - Pharmacy Inventory Management System
+# 💊 PharmaStock
 
-PharmaStock is a comprehensive inventory management system designed specifically for pharmacies. It helps manage product stock, track expiry dates, handle sales, and manage suppliers efficiently. This web-based application is built with Django and provides a user-friendly interface for both pharmacy staff and customers.
+> **A comprehensive Django-based inventory management system designed specifically to streamline daily pharmacy operations, track stock, and manage sales.**
 
-## Key Features
+![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-5.0-092E20?logo=django&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Dev%20Mode-003B57?logo=sqlite&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-150458?logo=pandas&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-22c55e?logo=opensourceinitiative&logoColor=white)
 
-*   **Product Management:** Add, edit, and delete products with details like category, quantity, expiry date, and price.
-*   **Stock Tracking:** Automatically monitors stock levels and identifies products that are running low.
-*   **Expiry Date Management:** Keeps track of product expiry dates and provides alerts for expired and soon-to-expire products.
-*   **Supplier Management:** Maintain a database of suppliers with their contact information.
-*   **Sales and Checkout:** A simple and efficient checkout process for customers to purchase products.
-*   **Income Reporting:** Generate reports to track total income from sales.
-*   **Sales Forecasting:** Provides a basic sales forecast based on historical data.
-*   **Product Returns:** Allows customers to request returns and admins to manage them.
-*   **Barcode Generation:** Automatically generates EAN-13 barcodes for each product.
-*   **User Authentication:** Separate views for authenticated users (customers) and staff (admins).
+---
 
-## Real-World Application
+## 📋 Table of Contents
 
-In a real-world pharmacy, PharmaStock can be an invaluable tool to streamline daily operations. Here’s how it can help:
+- [Overview](#-overview)
+- [Objectives](#-objectives)
+- [Core Features](#-core-features)
+- [System Architecture](#-system-architecture)
+- [User Roles](#-user-roles)
+- [Tech Stack](#-tech-stack)
+- [Setup & Installation](#-setup--installation)
+- [Usage](#-usage)
+- [UI Snapshots](#️-ui-snapshots)
+- [Configuration & Security](#️-configuration--security)
+- [About](#-about)
+- [License](#-license)
 
-*   **Reduce Waste:** By tracking expiry dates, the pharmacy can prioritize selling products that are nearing their expiry, thus reducing waste and financial loss.
-*   **Prevent Stockouts:** The low-stock alerts ensure that popular and essential medicines are always available, improving customer satisfaction and preventing lost sales.
-*   **Improve Efficiency:** Automating inventory tracking saves significant time for pharmacy staff, allowing them to focus on customer service and other critical tasks.
-*   **Data-Driven Decisions:** The income reports and sales forecasts provide valuable insights for making informed business decisions, such as which products to stock more of.
-*   **Enhanced Customer Experience:** A smooth checkout process and the ability to view available products online enhance the overall customer experience.
+---
 
-## Technologies Used
+## 🔍 Overview
 
-*   **Backend:** Django, Python
-*   **Frontend:** HTML, CSS, JavaScript
-*   **Database:** SQLite (default, can be configured for other databases)
-*   **Libraries:**
-    *   `pandas` for data analysis (sales forecasting)
-    *   `python-barcode` for generating barcodes
-    *   `Pillow` for image processing
+Managing a pharmacy requires precise tracking of inventory, expiration dates, and sales. **PharmaStock** is a robust Django web application built to digitize and optimize these vital processes.
 
-## Setup and Installation
+From product entry to final checkout, the system provides a structured, automated workflow:
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd stock
-    ```
+1. **Manage Products** — Add, edit, and organize medical products with detailed information including category, price, and critical expiry dates.
+2. **Track Stock** — Automatically monitor stock levels and receive instant alerts for items running low.
+3. **Process Sales** — A fast, streamlined checkout interface for staff and customers.
+4. **Monitor Expirations** — Proactively track and identify products that are expired or nearing their expiry date to minimize financial loss and ensure patient safety.
+5. **Analyze & Forecast** — Generate income reports and leverage historical data for basic sales forecasting.
 
-2.  **Create a virtual environment and activate it:**
-    ```bash
-    python -m venv env
-    source env/bin/activate  # On Windows, use `env\Scripts\activate`
-    ```
+The result is an efficient, safe, and data-driven environment for modern pharmacies.
 
-3.  **Install the dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-    *(Note: A `requirements.txt` file would need to be created for this step)*
+---
 
-4.  **Apply migrations:**
-    ```bash
-    python manage.py migrate
-    ```
+## 🎯 Objectives
 
-5.  **Create a superuser:**
-    ```bash
-    python manage.py createsuperuser
-    ```
+| Goal | Description |
+|---|---|
+| 📦 **Centralize Inventory** | Replace manual logs with a structured digital product database |
+| ⏳ **Minimize Waste** | Track expiry dates proactively to prioritize stock and prevent losses |
+| 🛒 **Streamline Sales** | Provide a smooth checkout process and comprehensive sales tracking |
+| 📊 **Data-Driven Decisions** | Generate income reports and basic sales forecasts using historical data |
+| 🏷️ **Automate Barcodes** | Auto-generate EAN-13 barcodes for effortless product scanning and management |
 
-6.  **Run the development server:**
-    ```bash
-    python manage.py runserver
-    ```
+---
 
-The application will be available at `http://127.0.0.1:8000`.
+## ✨ Core Features
 
-## Project Structure
+### 👔 For Pharmacy Staff (Admins)
+- **Product Management** — Comprehensive CRUD operations for all inventory items.
+- **Stock & Expiry Alerts** — Automated dashboards highlighting low-stock and soon-to-expire items.
+- **Supplier Database** — Maintain active records and contact details of all medical suppliers.
+- **Returns Processing** — Handle customer return requests directly from the dashboard.
+- **Financial Reporting** — Generate total income reports and basic sales forecasts using Pandas.
 
+### 👤 For Customers
+- **Product Catalog** — Browse available products and check stock availability.
+- **Smooth Checkout** — An efficient purchasing flow designed for speed.
+- **Return Requests** — Ability to initiate a return request for purchased items.
+
+### ⚙️ System Capabilities
+- **Barcode Generation:** Automatically generates standard EAN-13 barcodes for every new product using `python-barcode`.
+- **User Authentication:** Distinct, secure views and dashboards for authenticated customers and staff.
+- **Image Processing:** Server-side handling and processing of product images using `Pillow`.
+
+---
+
+## 🏗️ System Architecture
+
+### Overall Flow
+
+```text
+Supplier Delivery
+    │
+    ├─ Add Product (Price, Quantity, Expiry)
+    ├─ Auto-Generate Barcode
+    └─ Update Database
+             │
+             ▼
+     ┌───────────────────┐
+     │  Inventory DB     │
+     │  (SQLite)         │
+     └────────┬──────────┘
+              │
+              ▼
+     ┌───────────────────────┐
+     │  Admin Dashboard      │
+     │  (Stock Alerts /      │
+     │   Expiry Tracking)    │
+     └────────┬──────────────┘
+              │
+              ▼
+     ┌─────────────────────┐
+     │ Customer Storefront │ ◄── Browse, Checkout, Request Returns
+     └─────────────────────┘
 ```
+
+---
+
+## 👥 User Roles
+
+| Role | Access Level |
+|---|---|
+| **Customer** | Browse products, process checkouts, request product returns |
+| **Staff / Admin** | Full access to product management, suppliers, reports, and stock alerts |
+
+> Note: Access to staff areas requires authenticated accounts with `is_staff` or `is_superuser` privileges.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Web Framework** | Django, Python |
+| **Database** | SQLite (development, scalable to PostgreSQL) |
+| **Frontend** | HTML, CSS, JavaScript |
+| **Data Analysis** | Pandas (for sales forecasting) |
+| **Barcode Generation**| python-barcode |
+| **Image Processing** | Pillow |
+
+---
+
+## 🚀 Setup & Installation
+
+> 💡 For a detailed Windows setup walkthrough, see **[INSTRUCTIONS.md](INSTRUCTIONS.md)**.
+
+### Quick Start
+
+**1. Clone the repository**
+```bash
+git clone <repository-url>
+cd stock
+```
+
+**2. Create and activate a virtual environment**
+```powershell
+# Windows
+python -m venv env
+env\Scripts\activate
+```
+
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Run database migrations**
+```bash
+python manage.py migrate
+```
+
+**5. Create a superuser (for admin access)**
+```bash
+python manage.py createsuperuser
+```
+
+**6. Start the development server**
+```bash
+python manage.py runserver
+```
+
+The application will be available at **http://127.0.0.1:8000/**  
+
+---
+
+## 📖 Usage
+
+### Staff Workflow
+1. Log in to the admin panel.
+2. Add new products and register your suppliers.
+3. Check the dashboard daily for low-stock and upcoming expiry alerts.
+4. Review generated sales forecasts to prepare upcoming purchase orders.
+
+### Customer Workflow
+1. Browse the available product catalog.
+2. Add items to the cart and proceed to checkout.
+3. Manage past orders and initiate returns if necessary.
+
+---
+
+## 🖼️ UI Snapshots
+
+> *UI snapshots will be added here.*
+
+---
+
+## 🛡️ Configuration & Security
+
+> ⚠️ **Before deploying to production, review all of the following:**
+
+| Setting | Default | Recommendation |
+|---|---|---|
+| `DEBUG` | `True` | Set to `False` and configure `ALLOWED_HOSTS` |
+| `SECRET_KEY` | Hardcoded | Rotate and load from environment variable |
+| Database | SQLite | Migrate to PostgreSQL for concurrent usage |
+| Media Files | Local `media/` | Move to a robust storage solution (e.g., AWS S3) |
+
+**Recommended:** Use environment variables or a `.env` file to manage all secrets before going live.
+
+---
+
+## 📁 Project Structure
+
+```text
 stock/
 ├── inventory/         # Main application
 │   ├── migrations/    # Database migrations
 │   ├── templates/     # HTML templates
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
 │   ├── models.py      # Database models
-│   ├── tests.py
 │   ├── urls.py        # URL routing for the app
 │   └── views.py       # Application logic
 ├── stocktime/         # Django project configuration
-│   ├── __init__.py
-│   ├── asgi.py
 │   ├── settings.py    # Project settings
-│   ├── urls.py        # Root URL configuration
-│   └── wsgi.py
+│   └── urls.py        # Root URL configuration
 ├── static/            # Static files (CSS, JS, images)
 ├── media/             # User-uploaded files (product images, barcodes)
 ├── manage.py          # Django's command-line utility
 └── db.sqlite3         # SQLite database
 ```
+
+---
+
+## 🧑💻 About
+
+### The Project
+
+**PharmaStock** was developed to solve the critical inventory challenges faced by local pharmacies, replacing error-prone manual tracking with an automated, data-driven approach.
+
+### Key Design Decisions
+
+- **Automated Barcoding** — Ensures every product can be rapidly scanned during checkout or inventory checks without manual label creation.
+- **Predictive Restocking** — Leveraging historical sales data via Pandas to provide actionable insights on when to reorder stock.
+- **Safety First** — Highlighted alerts for approaching expiry dates ensure patient safety is prioritized and financial waste is minimized.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for full details.
